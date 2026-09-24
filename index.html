@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>KYLUXE — Fashion Store</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">KYLUXE</div>
+
+    <nav class="desktop-nav">
+      <a href="#home">Home</a>
+      <a href="#categories">Categories</a>
+      <a href="#favorites">Favorites</a>
+      <a href="#cart">Cart</a>
+      <a href="#account">Account</a>
+    </nav>
+
+    <button id="menuBtn" class="menu-btn">☰</button>
+  </header>
+
+
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <!-- WELCOME -->
+    <section id="welcome" class="welcome-section">
+      <div class="welcome-content">
+        <p class="small-title">WELCOME TO</p>
+
+        <h1>KYLUXE</h1>
+
+        <p>Discover something you'll love.</p>
+
+        <button id="shopNowBtn" class="primary-btn">
+          SHOP NOW
+        </button>
+      </div>
+    </section>
+
+
+    <!-- HOME -->
+    <section id="home" class="section">
+      <div class="section-heading">
+        <div>
+          <p class="small-title">LATEST COLLECTION</p>
+          <h2>New Arrivals</h2>
+        </div>
+
+        <button id="viewAllBtn" class="text-btn">
+          View All
+        </button>
+      </div>
+
+      <div id="productGrid" class="product-grid">
+        <!-- Products will appear here -->
+      </div>
+    </section>
+
+
+    <!-- CATEGORIES -->
+    <section id="categories" class="section">
+      <div class="section-heading">
+        <div>
+          <p class="small-title">EXPLORE</p>
+          <h2>Categories</h2>
+        </div>
+      </div>
+
+      <div id="categoryGrid" class="category-grid">
+        <!-- Categories will appear here -->
+      </div>
+    </section>
+
+
+    <!-- FAVORITES -->
+    <section id="favorites" class="section">
+      <div class="section-heading">
+        <div>
+          <p class="small-title">YOUR PICKS</p>
+          <h2>Favorites</h2>
+        </div>
+      </div>
+
+      <div id="favoritesGrid" class="product-grid">
+        <!-- Favorite products -->
+      </div>
+    </section>
+
+
+    <!-- CART -->
+    <section id="cart" class="section">
+      <div class="section-heading">
+        <div>
+          <p class="small-title">YOUR BAG</p>
+          <h2>Shopping Cart</h2>
+        </div>
+      </div>
+
+      <div id="cartContainer">
+        <!-- Cart items -->
+      </div>
+    </section>
+
+
+    <!-- ACCOUNT -->
+    <section id="account" class="section">
+      <div class="section-heading">
+        <div>
+          <p class="small-title">PROFILE</p>
+          <h2>My Account</h2>
+        </div>
+      </div>
+
+      <div id="accountContainer">
+        <!-- Account information -->
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="mobile-nav">
+
+    <a href="#home">
+      <span>⌂</span>
+      <small>Home</small>
+    </a>
+
+    <a href="#categories">
+      <span>◈</span>
+      <small>Categories</small>
+    </a>
+
+    <a href="#favorites">
+      <span>♡</span>
+      <small>Favorites</small>
+    </a>
+
+    <a href="#cart">
+      <span>🛍</span>
+      <small>Cart</small>
+    </a>
+
+    <a href="#account">
+      <span>♙</span>
+      <small>Account</small>
+    </a>
+
+  </nav>
+
+
+  <!-- TOAST -->
+  <div id="toast" class="toast"></div>
+
+
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- KYLUXE CONFIG -->
+  <script src="config.js"></script>
+
+  <!-- KYLUXE JAVASCRIPT -->
+  <script src="script.js"></script>
+
+</body>
+</html>
