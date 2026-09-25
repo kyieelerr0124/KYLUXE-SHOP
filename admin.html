@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>KYLUXE — Admin Dashboard</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .admin-page {
+      min-height: 100vh;
+      background: #f7f7f7;
+      padding-bottom: 80px;
+    }
+
+    .admin-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      height: 70px;
+      padding: 0 5%;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      background: white;
+      border-bottom: 1px solid #eee;
+    }
+
+    .admin-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .admin-header-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .admin-container {
+      width: 92%;
+      max-width: 1300px;
+      margin: auto;
+      padding: 45px 0;
+    }
+
+    .admin-welcome {
+      margin-bottom: 30px;
+    }
+
+    .admin-welcome h1 {
+      font-size: 38px;
+      margin-bottom: 5px;
+    }
+
+    .admin-welcome p {
+      color: #777;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 25px;
+      align-items: start;
+    }
+
+    .admin-card {
+      background: white;
+      border: 1px solid #eee;
+      border-radius: 18px;
+      padding: 25px;
+    }
+
+    .admin-card h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .admin-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .admin-form label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #555;
+    }
+
+    .admin-form input,
+    .admin-form textarea,
+    .admin-form select {
+      width: 100%;
+      padding: 13px 14px;
+
+      border: 1px solid #ddd;
+      border-radius: 10px;
+
+      background: white;
+      color: #171717;
+
+      font: inherit;
+      outline: none;
+    }
+
+    .admin-form textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .admin-form input:focus,
+    .admin-form textarea:focus,
+    .admin-form select:focus {
+      border-color: #171717;
+    }
+
+    .admin-form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .image-preview {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 14px;
+      background: #f1f1f1;
+      object-fit: cover;
+      display: none;
+    }
+
+    .admin-products {
+      display: grid;
+      gap: 14px;
+    }
+
+    .admin-product {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 15px;
+      align-items: center;
+
+      padding: 12px;
+
+      border: 1px solid #eee;
+      border-radius: 14px;
+    }
+
+    .admin-product img {
+      width: 80px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      background: #eee;
+    }
+
+    .admin-product-info h3 {
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+
+    .admin-product-info p {
+      color: #777;
+      font-size: 13px;
+      margin: 2px 0;
+    }
+
+    .admin-product-actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .admin-small-btn {
+      border: 1px solid #ddd;
+      background: white;
+      color: #171717;
+
+      padding: 8px 11px;
+      border-radius: 8px;
+
+      font-size: 12px;
+      font-weight: 600;
+
+      cursor: pointer;
+    }
+
+    .admin-small-btn:hover {
+      background: #f1f1f1;
+    }
+
+    .admin-danger {
+      color: #c62828;
+    }
+
+    .admin-status {
+      padding: 8px 12px;
+      border-radius: 20px;
+      background: #eee;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-block;
+      margin-top: 5px;
+    }
+
+    .admin-empty {
+      text-align: center;
+      color: #888;
+      padding: 40px 10px;
+    }
+
+    .admin-loading {
+      text-align: center;
+      padding: 30px;
+      color: #777;
+    }
+
+    .admin-error {
+      background: #fff0f0;
+      color: #b71c1c;
+      border: 1px solid #ffcaca;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .admin-container {
+        width: 94%;
+        padding: 30px 0;
+      }
+
+      .admin-header {
+        padding: 0 4%;
+      }
+
+      .admin-title {
+        font-size: 17px;
+      }
+
+      .admin-welcome h1 {
+        font-size: 30px;
+      }
+
+      .admin-form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-product {
+        grid-template-columns: 60px 1fr;
+      }
+
+      .admin-product img {
+        width: 60px;
+        height: 75px;
+      }
+
+      .admin-product-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="admin-page">
+
+    <!-- ADMIN HEADER -->
+    <header class="admin-header">
+
+      <div class="admin-title">
+        KYLUXE ADMIN
+      </div>
+
+      <div class="admin-header-actions">
+
+        <a
+          href="index.html"
+          class="admin-small-btn"
+          style="text-decoration:none;"
+        >
+          View Store
+        </a>
+
+        <button
+          id="logoutBtn"
+          class="admin-small-btn"
+        >
+          Sign Out
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- ADMIN CONTENT -->
+    <main class="admin-container">
+
+      <div class="admin-welcome">
+
+        <p class="small-title">
+          MANAGEMENT PANEL
+        </p>
+
+        <h1>Welcome, Admin.</h1>
+
+        <p>
+          Manage your KYLUXE products and inventory here.
+        </p>
+
+      </div>
+
+
+      <div
+        id="adminError"
+        class="admin-error"
+      ></div>
+
+
+      <div class="admin-grid">
+
+
+        <!-- ADD / EDIT PRODUCT -->
+        <section class="admin-card">
+
+          <h2 id="formTitle">
+            Add New Product
+          </h2>
+
+          <form
+            id="productForm"
+            class="admin-form"
+          >
+
+            <input
+              type="hidden"
+              id="productId"
+            >
+
+
+            <div>
+              <label for="productName">
+                PRODUCT NAME
+              </label>
+
+              <input
+                id="productName"
+                type="text"
+                placeholder="e.g. Oversized Tee"
+                required
+              >
+            </div>
+
+
+            <div>
+              <label for="productDescription">
+                DESCRIPTION
+              </label>
+
+              <textarea
+                id="productDescription"
+                placeholder="Describe the product..."
+              ></textarea>
+            </div>
+
+
+            <div class="admin-form-row">
+
+              <div>
+                <label for="productPrice">
+                  PRICE
+                </label>
+
+                <input
+                  id="productPrice"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="499"
+                  required
+                >
+              </div>
+
+              <div>
+                <label for="productOriginalPrice">
+                  ORIGINAL PRICE
+                </label>
+
+                <input
+                  id="productOriginalPrice"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="699"
+                >
+              </div>
+
+            </div>
+
+
+            <div class="admin-form-row">
+
+              <div>
+                <label for="productStock">
+                  STOCK
+                </label>
+
+                <input
+                  id="productStock"
+                  type="number"
+                  min="0"
+                  placeholder="20"
+                  required
+                >
+              </div>
+
+              <div>
+                <label for="productCategory">
+                  CATEGORY
+                </label>
+
+                <input
+                  id="productCategory"
+                  type="text"
+                  placeholder="Tops"
+                  required
+                >
+              </div>
+
+            </div>
+
+
+            <div>
+
+              <label for="productSizes">
+                SIZES
+              </label>
+
+              <input
+                id="productSizes"
+                type="text"
+                placeholder="XS, S, M, L, XL"
+              >
+
+            </div>
+
+
+            <div>
+
+              <label for="productColors">
+                COLORS
+              </label>
+
+              <input
+                id="productColors"
+                type="text"
+                placeholder="Black, White, Pink"
+              >
+
+            </div>
+
+
+            <div>
+
+              <label for="productImage">
+                PRODUCT IMAGE
+              </label>
+
+              <input
+                id="productImage"
+                type="file"
+                accept="image/*"
+              >
+
+            </div>
+
+
+            <img
+              id="imagePreview"
+              class="image-preview"
+              alt="Product preview"
+            >
+
+
+            <button
+              type="submit"
+              id="saveProductBtn"
+              class="primary-btn"
+            >
+              ADD PRODUCT
+            </button>
+
+
+            <button
+              type="button"
+              id="cancelEditBtn"
+              class="admin-small-btn"
+              style="display:none;"
+            >
+              CANCEL EDIT
+            </button>
+
+          </form>
+
+        </section>
+
+
+        <!-- PRODUCTS -->
+        <section class="admin-card">
+
+          <h2>
+            Products
+          </h2>
+
+          <div
+            id="adminProducts"
+            class="admin-products"
+          >
+
+            <div class="admin-loading">
+              Loading products...
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- CONFIG -->
+  <script src="config.js"></script>
+
+
+  <script>
+
+    // ========================================
+    // SUPABASE
+    // ========================================
+
+    const supabaseClient =
+      window.supabase.createClient(
+        window.KYLUXE_CONFIG.SUPABASE_URL,
+        window.KYLUXE_CONFIG.SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    let adminProducts = [];
+
+
+    // ========================================
+    // PAGE START
+    // ========================================
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      async () => {
+
+        await checkAdmin();
+
+        setupProductForm();
+
+        setupImagePreview();
+
+        document
+          .getElementById("logoutBtn")
+          .addEventListener(
+            "click",
+            logout
+          );
+
+        document
+          .getElementById("cancelEditBtn")
+          .addEventListener(
+            "click",
+            resetForm
+          );
+
+      }
+    );
+
+
+    // ========================================
+    // CHECK ADMIN
+    // ========================================
+
+    async function checkAdmin() {
+
+      const {
+        data: {
+          user
+        }
+      } = await supabaseClient.auth.getUser();
+
+
+      if (!user) {
+
+        showError(
+          "You must sign in as an admin first."
+        );
+
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 1800);
+
+        return;
+      }
+
+
+      const {
+        data: profile,
+        error
+      } = await supabaseClient
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+
+      if (
+        error ||
+        !profile ||
+        profile.role !== "admin"
+      ) {
+
+        showError(
+          "Access denied. Admin account required."
+        );
+
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 1800);
+
+        return;
+      }
+
+
+      loadAdminProducts();
+    }
+
+
+    // ========================================
+    // LOAD PRODUCTS
+    // ========================================
+
+    async function loadAdminProducts() {
+
+      const container =
+        document.getElementById(
+          "adminProducts"
+        );
+
+
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("products")
+        .select("*")
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+
+      if (error) {
+
+        showError(
+          "Could not load products: " +
+          error.message
+        );
+
+        return;
+      }
+
+
+      adminProducts = data || [];
+
+      renderAdminProducts();
+    }
+
+
+    // ========================================
+    // RENDER PRODUCTS
+    // ========================================
+
+    function renderAdminProducts() {
+
+      const container =
+        document.getElementById(
+          "adminProducts"
+        );
+
+
+      if (
+        !adminProducts ||
+        adminProducts.length === 0
+      ) {
+
+        container.innerHTML = `
+          <div class="admin-empty">
+            <h3>No products yet.</h3>
+
+            <p>
+              Add your first product using the form.
+            </p>
+          </div>
+        `;
+
+        return;
+      }
+
+
+      container.innerHTML =
+        adminProducts
+          .map(product => {
+
+            const image =
+              product.image_url ||
+              "https://via.placeholder.com/100x130?text=KYLUXE";
+
+
+            const status =
+              product.stock <= 0
+                ? "SOLD OUT"
+                : product.stock <= 5
+                  ? "LOW STOCK"
+                  : "IN STOCK";
+
+
+            return `
+              <div class="admin-product">
+
+                <img
+                  src="${escapeHTML(image)}"
+                  alt="${escapeHTML(product.name)}"
+                >
+
+                <div class="admin-product-info">
+
+                  <h3>
+                    ${escapeHTML(product.name)}
+                  </h3>
+
+                  <p>
+                    ₱${Number(product.price).toFixed(2)}
+                  </p>
+
+                  <p>
+                    Stock: ${product.stock}
+                  </p>
+
+                  <p>
+                    Category: ${escapeHTML(product.category)}
+                  </p>
+
+                  <span class="admin-status">
+                    ${status}
+                  </span>
+
+                </div>
+
+                <div class="admin-product-actions">
+
+                  <button
+                    class="admin-small-btn"
+                    onclick="editProduct('${product.id}')"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    class="admin-small-btn admin-danger"
+                    onclick="deleteProduct('${product.id}')"
+                  >
+                    Delete
+                  </button>
+
+                </div>
+
+              </div>
+            `;
+
+          })
+          .join("");
+    }
+
+
+    // ========================================
+    // IMAGE PREVIEW
+    // ========================================
+
+    function setupImagePreview() {
+
+      const input =
+        document.getElementById(
+          "productImage"
+        );
+
+      const preview =
+        document.getElementById(
+          "imagePreview"
+        );
+
+
+      input.addEventListener(
+        "change",
+        () => {
+
+          const file =
+            input.files[0];
+
+          if (!file) {
+
+            preview.style.display =
+              "none";
+
+            return;
+          }
+
+
+          const url =
+            URL.createObjectURL(file);
+
+          preview.src = url;
+
+          preview.style.display =
+            "block";
+
+        }
+      );
+
+    }
+
+
+    // ========================================
+    // PRODUCT FORM
+    // ========================================
+
+    function setupProductForm() {
+
+      document
+        .getElementById("productForm")
+        .addEventListener(
+          "submit",
+          saveProduct
+        );
+
+    }
+
+
+    // ========================================
+    // SAVE PRODUCT
+    // ========================================
+
+    async function saveProduct(event) {
+
+      event.preventDefault();
+
+
+      const button =
+        document.getElementById(
+          "saveProductBtn"
+        );
+
+
+      button.disabled = true;
+
+      button.textContent =
+        "SAVING...";
+
+
+      try {
+
+        const id =
+          document.getElementById(
+            "productId"
+          ).value;
+
+
+        const name =
+          document.getElementById(
+            "productName"
+          ).value.trim();
+
+
+        const description =
+          document.getElementById(
+            "productDescription"
+          ).value.trim();
+
+
+        const price =
+          Number(
+            document.getElementById(
+              "productPrice"
+            ).value
+          );
+
+
+        const originalPriceValue =
+          document.getElementById(
+            "productOriginalPrice"
+          ).value;
+
+
+        const originalPrice =
+          originalPriceValue
+            ? Number(originalPriceValue)
+            : null;
+
+
+        const stock =
+          Number(
+            document.getElementById(
+              "productStock"
+            ).value
+          );
+
+
+        const category =
+          document.getElementById(
+            "productCategory"
+          ).value.trim();
+
+
+        const sizes =
+          document.getElementById(
+            "productSizes"
+          ).value
+            .split(",")
+            .map(value => value.trim())
+            .filter(Boolean);
+
+
+        const colors =
+          document.getElementById(
+            "productColors"
+          ).value
+            .split(",")
+            .map(value => value.trim())
+            .filter(Boolean);
+
+
+        const imageFile =
+          document.getElementById(
+            "productImage"
+          ).files[0];
+
+
+        let imageUrl = null;
+
+
+        // ========================================
+        // UPLOAD IMAGE
+        // ========================================
+
+        if (imageFile) {
+
+          const extension =
+            imageFile.name
+              .split(".")
+              .pop()
+              .toLowerCase();
+
+
+          const fileName =
+            `${crypto.randomUUID()}.${extension}`;
+
+
+          const filePath =
+            `products/${fileName}`;
+
+
+          const {
+            error: uploadError
+          } = await supabaseClient
+            .storage
+            .from("KYLUXE")
+            .upload(
+              filePath,
+              imageFile,
+              {
+                upsert: false
+              }
+            );
+
+
+          if (uploadError) {
+            throw uploadError;
+          }
+
+
+          const {
+            data: publicData
+          } =
+            supabaseClient
+              .storage
+              .from("KYLUXE")
+              .getPublicUrl(
+                filePath
+              );
+
+
+          imageUrl =
+            publicData.publicUrl;
+        }
+
+
+        // ========================================
+        // PRODUCT DATA
+        // ========================================
+
+        const productData = {
+
+          name,
+
+          description,
+
+          price,
+
+          original_price:
+            originalPrice,
+
+          category,
+
+          stock,
+
+          sizes,
+
+          colors,
+
+          is_active: true
+
+        };
+
+
+        if (imageUrl) {
+          productData.image_url =
+            imageUrl;
+        }
+
+
+        // ========================================
+        // EDIT PRODUCT
+        // ========================================
+
+        if (id) {
+
+          const {
+            error
+          } = await supabaseClient
+            .from("products")
+            .update(productData)
+            .eq("id", id);
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          showSuccess(
+            "Product updated successfully."
+          );
+
+        }
+
+        // ========================================
+        // ADD PRODUCT
+        // ========================================
+
+        else {
+
+          if (!imageUrl) {
+
+            throw new Error(
+              "Please select a product image."
+            );
+
+          }
+
+
+          const {
+            error
+          } = await supabaseClient
+            .from("products")
+            .insert({
+              ...productData,
+              image_url: imageUrl
+            });
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          showSuccess(
+            "Product added successfully."
+          );
+
+        }
+
+
+        resetForm();
+
+        await loadAdminProducts();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        showError(
+          error.message ||
+          "Something went wrong."
+        );
+
+      } finally {
+
+        button.disabled = false;
+
+        button.textContent =
+          document.getElementById(
+            "productId"
+          ).value
+            ? "UPDATE PRODUCT"
+            : "ADD PRODUCT";
+
+      }
+
+    }
+
+
+    // ========================================
+    // EDIT PRODUCT
+    // ========================================
+
+    function editProduct(id) {
+
+      const product =
+        adminProducts.find(
+          item => item.id === id
+        );
+
+
+      if (!product) return;
+
+
+      document.getElementById(
+        "productId"
+      ).value = product.id;
+
+
+      document.getElementById(
+        "productName"
+      ).value = product.name || "";
+
+
+      document.getElementById(
+        "productDescription"
+      ).value =
+        product.description || "";
+
+
+      document.getElementById(
+        "productPrice"
+      ).value =
+        product.price || 0;
+
+
+      document.getElementById(
+        "productOriginalPrice"
+      ).value =
+        product.original_price || "";
+
+
+      document.getElementById(
+        "productStock"
+      ).value =
+        product.stock || 0;
+
+
+      document.getElementById(
+        "productCategory"
+      ).value =
+        product.category || "";
+
+
+      document.getElementById(
+        "productSizes"
+      ).value =
+        (product.sizes || []).join(", ");
+
+
+      document.getElementById(
+        "productColors"
+      ).value =
+        (product.colors || []).join(", ");
+
+
+      document.getElementById(
+        "formTitle"
+      ).textContent =
+        "Edit Product";
+
+
+      document.getElementById(
+        "saveProductBtn"
+      ).textContent =
+        "UPDATE PRODUCT";
+
+
+      document.getElementById(
+        "cancelEditBtn"
+      ).style.display =
+        "block";
+
+
+      if (product.image_url) {
+
+        const preview =
+          document.getElementById(
+            "imagePreview"
+          );
+
+        preview.src =
+          product.image_url;
+
+        preview.style.display =
+          "block";
+
+      }
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    // ========================================
+    // DELETE PRODUCT
+    // ========================================
+
+    async function deleteProduct(id) {
+
+      const product =
+        adminProducts.find(
+          item => item.id === id
+        );
+
+
+      if (!product) return;
+
+
+      const confirmed =
+        confirm(
+          `Delete "${product.name}"?`
+        );
+
+
+      if (!confirmed) return;
+
+
+      const {
+        error
+      } = await supabaseClient
+        .from("products")
+        .delete()
+        .eq("id", id);
+
+
+      if (error) {
+
+        showError(
+          "Could not delete product: " +
+          error.message
+        );
+
+        return;
+      }
+
+
+      showSuccess(
+        "Product deleted."
+      );
+
+
+      await loadAdminProducts();
+
+    }
+
+
+    // ========================================
+    // RESET FORM
+    // ========================================
+
+    function resetForm() {
+
+      document
+        .getElementById("productForm")
+        .reset();
+
+
+      document.getElementById(
+        "productId"
+      ).value = "";
+
+
+      document.getElementById(
+        "formTitle"
+      ).textContent =
+        "Add New Product";
+
+
+      document.getElementById(
+        "saveProductBtn"
+      ).textContent =
+        "ADD PRODUCT";
+
+
+      document.getElementById(
+        "cancelEditBtn"
+      ).style.display =
+        "none";
+
+
+      document.getElementById(
+        "imagePreview"
+      ).style.display =
+        "none";
+
+    }
+
+
+    // ========================================
+    // LOGOUT
+    // ========================================
+
+    async function logout() {
+
+      await supabaseClient.auth.signOut();
+
+      window.location.href =
+        "index.html";
+
+    }
+
+
+    // ========================================
+    // MESSAGES
+    // ========================================
+
+    function showError(message) {
+
+      const box =
+        document.getElementById(
+          "adminError"
+        );
+
+      box.textContent =
+        message;
+
+      box.style.display =
+        "block";
+
+      box.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+    }
+
+
+    function showSuccess(message) {
+
+      const box =
+        document.getElementById(
+          "adminError"
+        );
+
+      box.textContent =
+        message;
+
+      box.style.display =
+        "block";
+
+      box.style.background =
+        "#f0fff4";
+
+      box.style.color =
+        "#176b35";
+
+      box.style.borderColor =
+        "#b9e6c8";
+
+
+      setTimeout(() => {
+
+        box.style.display =
+          "none";
+
+        box.style.background =
+          "";
+
+        box.style.color =
+          "";
+
+        box.style.borderColor =
+          "";
+
+      }, 3000);
+
+    }
+
+
+    // ========================================
+    // ESCAPE HTML
+    // ========================================
+
+    function escapeHTML(value) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+        return "";
+      }
+
+
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+  </script>
+
+</body>
+</html>
